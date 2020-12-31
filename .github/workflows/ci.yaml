@@ -1,0 +1,29 @@
+name: Hive CI
+
+on:
+  push
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Start docker
+        run: ./start.sh -d
+      - run: bash -x ./test-kdc.sh
+      - run: bash -x ./test-minio.sh
+      - run: bash -x ./test-postgres.sh
+      - run: bash -x ./test-hadoop-kerberos.sh
+      - run: bash -x ./test-hive-metastore.sh
+      - run: bash -x ./test-hive-metastore-s3.sh
+      - run: bash -x ./test-krb5-client.sh
+      - run: bash -x ./test-presto.sh
+      - name: Dump logs
+        if: ${{ always() }}
+        run:
+          docker-compose ps --services | xargs -n 1 bash -c '
+            echo "::group::${0}";
+            docker-compose logs -- ${0};
+            echo "::endgroup::"
+          '

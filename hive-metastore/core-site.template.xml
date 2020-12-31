@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<configuration>
+    <property>
+        <name>hadoop.security.authorization</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>hadoop.security.authentication</name>
+        <value>kerberos</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.path.style.access</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.endpoint</name>
+        <value>${S3_ENDPOINT}</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.access.key</name>
+        <value>${S3_ACCESS_KEY}</value>
+    </property>
+
+    <property>
+        <name>fs.s3a.secret.key</name>
+        <value>${S3_SECRET_KEY}</value>
+    </property>
+</configuration>

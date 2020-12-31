@@ -1,0 +1,180 @@
+version: '3.3'
+
+x-hive-metastore-common:
+  &hive-metastore-common
+  build: ./hive-metastore/
+  hostname: hive-metastore-hive-metastore
+  domainname: example.com
+  depends_on:
+    - postgres
+    - minio
+    - hive-metastore-kdc
+  environment:
+    - HIVE_METASTORE_JDBC_URL=jdbc:postgresql://postgres/hivemetastore
+    - HIVE_METASTORE_DRIVER=org.postgresql.Driver
+    - HIVE_METASTORE_USER=hivemetastore
+    - HIVE_METASTORE_PASSWORD=hivemetastore
+    - S3_ENDPOINT=http://minio:9000
+    - S3_ACCESS_KEY=minio
+    - S3_SECRET_KEY=minio123
+    - KRB5_KTNAME=/root/kerberos-keytabs/hive-metastore.keytab
+    - HIVE_METASTORE_KERBEROS_PRINCIPAL=hive/hive-metastore-hive-metastore.example.com@EXAMPLE.COM
+    - HADOOP_OPTS=-Dsun.security.krb5.debug=true
+    - KRB5_TRACE=/dev/stderr
+  volumes:
+    - kerberos-keytabs:/root/kerberos-keytabs
+    - $PWD:$PWD
+    - ./krb5-client/krb5.conf:/etc/krb5.conf
+
+services:
+  hive-metastore:
+    <<: *hive-metastore-common
+    container_name: hive-metastore-hive-metastore
+    networks:
+      example.com:
+        ipv4_address: 10.5.0.6
+    ports:
+      - 9083:9083
+      - 5008:5008
+    restart: always
+    healthcheck:
+      test: "netstat -lpn | grep 9083"
+      interval: 30s
+      retries: 5
+
+  hive-metastore-init:
+    <<: *hive-metastore-common
+    container_name: hive-metastore-hive-metastore-init
+    networks:
+      example.com:
+        ipv4_address: 10.5.0.7
+
+    command:
+      - /opt/hive/bin/schematool
+      - -dbType
+      - postgres
+      - -initSchema
+    restart: "no"
+
+  postgres:
+    image: postgres:9.6.10
+    restart: always
+    user: postgres
+    hostname: hive-metastore-postgres
+    domainname: example.com
+    container_name: hive-metastore-postgres
+    networks:
+      example.com:
+        ipv4_address: 10.5.0.5
+
+    environment:
+      POSTGRES_DB: hivemetastore
+      POSTGRES_USER: hivemetastore
+      POSTGRES_PASSWORD: hivemetastore
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: "psql -h localhost -U hivemetastore -c 'select 1' hivemetastore"
+      interval: 1s
+      retries: 90
+
+  minio:
+    image: minio/minio:RELEASE.2020-12-26T01-35-54Z
+    restart: always
+    hostname: hive-metastore-minio
+    domainname: example.com
+    container_name: hive-metastore-minio
+    networks:
+      example.com:
+        ipv4_address: 10.5.0.4
+
+    ports:
+      - 9000:9000
+    expose:
+      - 9000
+    command: server /data
+    volumes:
+      - minio-data:/data
+    environment:
+      MINIO_ACCESS_KEY: minio
+      MINIO_SECRET_KEY: minio123
+
+  hive-metastore-presto:
+    build: ./presto
+    depends_on:
+      - hive-metastore
+    ports:
+      - 8080:8080
+    hostname: hive-metastore-presto
+    restart: always
+    domainname: example.com
+    container_name: hive-metastore-presto
+    networks:
+      example.com:
+        ipv4_address: 10.5.0.3
+
+    volumes:
+      - kerberos-keytabs:/home/presto/kerberos-keytabs
+      - ./krb5-client/krb5.conf:/etc/krb5.conf
+
+    environment:
+      - KRB5_KTNAME=/home/presto/kerberos-keytabs/presto.keytab
+      - KRB5_TRACE=/dev/stderr
+      - KRB5_CONFIG=/etc/krb5.conf
+      - KRB5_PRINCIPAL=hive-metastore-presto.example.com
+      - HIVE_METASTORE_URI=thrift://hive-metastore.example.com:9083
+      - S3_ENDPOINT=http://minio:9000
+      - S3_ACCESS_KEY=minio
+      - S3_SECRET_KEY=minio123
+
+  hive-metastore-kdc:
+    build:
+      context: ./kdc/
+      dockerfile: ./Dockerfile
+    hostname: kdc
+    domainname: example.com
+    container_name: hive-metastore-kdc
+    networks:
+      example.com:
+        ipv4_address: 10.5.0.1
+
+    volumes:
+      - kerberos-keytabs:/root/kerberos-keytabs
+      - /dev/urandom:/dev/random   # Required to get non-blocking entropy source
+
+    environment:
+      - KRB5_TRACE=/dev/stderr
+      - POST_BOOTSTRAP_COMMAND=
+        /opt/kerberos-utils/create_admin.sh alice alice;
+        /opt/kerberos-utils/create_client.sh bob bob /root/kerberos-keytabs/krb-client.keytab;
+        /opt/kerberos-utils/create_client.sh hive-metastore-presto hive-metastore-presto /root/kerberos-keytabs/presto.keytab;
+        /opt/kerberos-utils/create_service.sh hive-metastore-presto HTTP /root/kerberos-keytabs/presto.keytab;
+        /opt/kerberos-utils/create_service.sh hive-metastore-hive-metastore hive /root/kerberos-keytabs/hive-metastore.keytab;
+
+  hive-metastore-krb5-client:
+    build: ./krb5-client/
+    hostname: hive-metastore-krb5-client
+    domainname: example.com
+    container_name: hive-metastore-krb5-client
+    networks:
+      example.com:
+        ipv4_address: 10.5.0.2
+
+    volumes:
+      - kerberos-keytabs:/root/kerberos-keytabs
+      - ./krb5-client/krb5.conf:/etc/krb5.conf
+
+    environment:
+      - KRB5_KTNAME=/root/kerberos-keytabs/krb-client.keytab
+      - KRB5_TRACE=/dev/stderr
+      - KRB5_CONFIG=/etc/krb5.conf
+
+volumes:
+  postgres-data:
+  minio-data:
+  kerberos-keytabs:
+
+networks:
+  example.com:
+    external: true

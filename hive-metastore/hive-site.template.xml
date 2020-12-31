@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<configuration>
+    <property>
+        <name>hive.metastore.warehouse.dir</name>
+        <value>file:///no/default/location/defined/please/create/new/schema/with/location/explicitly/set/</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionURL</name>
+        <value>${HIVE_METASTORE_JDBC_URL}</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionDriverName</name>
+        <value>${HIVE_METASTORE_DRIVER}</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionUserName</name>
+        <value>${HIVE_METASTORE_USER}</value>
+    </property>
+
+    <property>
+        <name>javax.jdo.option.ConnectionPassword</name>
+        <value>${HIVE_METASTORE_PASSWORD}</value>
+    </property>
+
+    <property>
+        <name>datanucleus.autoCreateSchema</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>datanucleus.autoCreateTables</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>datanucleus.autoCreateColumns</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>datanucleus.autoCreateConstraints</name>
+        <value>false</value>
+    </property>
+
+    <property>
+        <name>datanucleus.fixedDatastore</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>datanucleus.autoStartMechanism</name>
+        <value>SchemaTable</value>
+    </property>
+
+    <property>
+        <name>hive.metastore.schema.verification</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>hive.security.authorization.createtable.owner.grants</name>
+        <value>ALL</value>
+        <description>The set of privileges automatically granted to the owner whenever a table gets created.
+        </description>
+    </property>
+
+    <property>
+        <name>hive.metastore.sasl.enabled</name>
+        <value>true</value>
+    </property>
+
+    <property>
+        <name>hive.server2.authentication</name>
+        <value>KERBEROS</value>
+    </property>
+    <property>
+        <name>hive.metastore.kerberos.keytab.file</name>
+        <value>${KRB5_KTNAME}</value>
+    </property>
+
+    <property>
+        <name>hive.metastore.kerberos.principal</name>
+        <value>${HIVE_METASTORE_KERBEROS_PRINCIPAL}</value>
+    </property>
+</configuration>
