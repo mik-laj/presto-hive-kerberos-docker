@@ -10,7 +10,18 @@ Communication between the client and Presto and Presto and Hive is secured by Ke
 
 ![](diagram.png)
 
-## Utilities scripts
+## Usage
+
+To start the environment, run:
+```
+./start.sh
+```
+To stop the environment and remove all volumes, run:
+```
+./stop.sh
+```
+
+**Utilities scripts**
 
 The project includes several scripts that facilitate interaction with the environment, focusing on authorization:
 
