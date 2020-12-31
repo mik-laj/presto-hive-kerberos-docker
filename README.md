@@ -27,7 +27,7 @@ The project includes several scripts that facilitate interaction with the enviro
 
 - [hive.sh](./hive.sh) - runs Apache Hive management console.
 - [kadmin.sh](./kadmin.sh) - runs Kerberos management console.
-- [kdiag.sh](./kdiag.sh) - runs Kerberos diagnostics tool. See: [https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SecureMode.html#Troubleshooting_with_KDiag](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SecureMode.html#Troubleshooting_with_KDiag)
+- [kdiag.sh](./kdiag.sh) - runs Kerberos diagnostics tool. See: [Troubleshooting with ``KDiag``](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SecureMode.html#Troubleshooting_with_KDiag).
 - [presto-send-query.sh](./presto-send-query.sh) - sends a SQL query using curl to Presto.
 - [psql.sh](./psql.sh) - runs PostgresSQL console
 
@@ -42,7 +42,7 @@ To create a bucket, run:
 
 The environment is integration tested using ``test-*.sh`` scripts. You can check its health by running these scripts locally. This is also a good source of examples of how to use this environment.
 
-## Troubleshooting:
+## Troubleshooting
 
 To print more verbose logs in ``hive.sh``, add `-hiveconf hive.root.logger=DEBUG,console` argument.
 ````shell script
