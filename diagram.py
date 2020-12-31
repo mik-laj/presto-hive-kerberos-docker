@@ -1,4 +1,4 @@
-from diagrams import Cluster, Diagram
+from diagrams import Cluster, Diagram, Edge
 
 from diagrams.aws.storage import S3
 from diagrams.onprem.analytics import Hive
@@ -14,12 +14,12 @@ with Diagram(filename="diagram") as diag:
         postgres = Postgresql("PostgreSQL")
         minio = S3("Minio (S3)")
         presto = Docker("Presto")
-        kdc = Docker("KDC")
-    client >> kdc
-    hive >> kdc
+        kdc = Docker("Kerberos KDC")
+    client >> Edge(color="darkgreen") >> kdc
+    hive >> Edge(color="darkgreen") >> kdc
     hive >> postgres
     presto >> minio
-    presto >> kdc
-    client >> presto >> hive
+    presto >> Edge(color="darkgreen") >> kdc
+    client >> Edge(color="darkgreen") >> presto >> Edge(color="darkgreen") >> hive
 
 diag

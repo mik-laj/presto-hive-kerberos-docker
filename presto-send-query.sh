@@ -11,7 +11,7 @@ Sends a SQL query to the Presto cluster and waits for the result.
 """
 }
 
-if [[ ! "$#" -eq 2 ]]; then
+if [[ ! "$#" -eq 1 ]]; then
     echo "You must provide exactly one argument."
     usage
     exit 1
