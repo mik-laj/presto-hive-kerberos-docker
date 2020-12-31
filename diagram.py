@@ -18,8 +18,10 @@ with Diagram(filename="diagram") as diag:
     client >> Edge(color="darkgreen") >> kdc
     hive >> Edge(color="darkgreen") >> kdc
     hive >> postgres
+    hive >> minio
     presto >> minio
     presto >> Edge(color="darkgreen") >> kdc
     client >> Edge(color="darkgreen") >> presto >> Edge(color="darkgreen") >> hive
+    client >> hive
 
 diag
