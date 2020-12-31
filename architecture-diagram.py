@@ -6,7 +6,7 @@ from diagrams.onprem.client import Client
 from diagrams.onprem.container import Docker
 from diagrams.onprem.database import Postgresql
 
-with Diagram(filename="diagram") as diag:
+with Diagram(filename="architecture-diagram") as diag:
     client = Client("Client")
 
     with Cluster("EXAMPLE.COM"):

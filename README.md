@@ -8,7 +8,7 @@ A development environment consisting of:
 
 Communication between the client and Presto and Presto and Hive is secured by Kerberos
 
-![](diagram.png)
+![](architecture-diagram.png)
 
 ## Usage
 
