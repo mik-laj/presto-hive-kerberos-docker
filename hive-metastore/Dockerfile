@@ -27,12 +27,13 @@ RUN mkdir -pv /usr/share/man/man1 \
         libkrb5-dev \
         libpostgresql-jdbc-java \
         locales \
+        net-tools \
+        netcat \
         postgresql-client \
+        procps \
         rsync \
         sudo \
         unzip \
-        procps \
-        netcat \
     && apt-get autoremove -yqq --purge \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
