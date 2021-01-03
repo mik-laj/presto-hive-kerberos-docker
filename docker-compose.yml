@@ -141,7 +141,7 @@ services:
       interval: 5s
       timeout: 30s
       retries: 50
-    restart: allways
+    restart: always
 
   hive-metastore-kdc:
     build:
