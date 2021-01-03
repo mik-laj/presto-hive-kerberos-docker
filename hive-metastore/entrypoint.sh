@@ -53,31 +53,9 @@ function check_service {
     fi
 }
 
-function check_kerberos {
-  check_service "Keytab" "test -f ${KRB5_KTNAME}" 30
-  KDC_HOST="$(cat /etc/krb5.conf | grep "\s\+kdc\s\+=" | cut -d "=" -f 2 | xargs)"
-  check_service "Kerberos KDC" "nc -zvv '${KDC_HOST}' 88" 30
-}
+log "Checking Kerberos"
+check_service "Keytab" "test -f ${KRB5_KTNAME}" 30
 
-function check_database {
-  # Auto-detect DB parameters
-  [[ ${HIVE_METASTORE_JDBC_URL} =~ jdbc:([^:]*)://([^@/]*)@?([^/:]*):?([0-9]*)/([^\?]*)\??(.*) ]] && \
-      DETECTED_DB_BACKEND=${BASH_REMATCH[1]} &&
-      # Not used USER match
-      DETECTED_DB_HOST=${BASH_REMATCH[2]} &&
-      DETECTED_DB_PORT=${BASH_REMATCH[3]} &&
-      # Not used SCHEMA match
-      # Not used PARAMS match
-  if [[ -z "${DETECTED_DB_PORT=}" ]]; then
-    DETECTED_DB_PORT=5432
-  fi
-
-  check_service "PostgreSQL" "nc -zvv ${DETECTED_DB_HOST} ${DETECTED_DB_PORT}" "20"
-}
-
-log "Checking environment"
-check_kerberos
-check_database
 
 log "Generating configuration"
 envsubst < "${HADOOP_CONF_DIR}/core-site.template.xml" > "${HADOOP_CONF_DIR}/core-site.xml"
