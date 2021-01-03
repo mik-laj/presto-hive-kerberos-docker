@@ -9,6 +9,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Pull images
+        run:
+          docker-compose ps --services | xargs -n 1 bash -c '
+          echo "::group::${0}";
+          docker-compose pull -- ${0};
+          echo "::endgroup::"
+          '
+      - name: Build images
+        run:
+          docker-compose ps --services | xargs -n 1 bash -c '
+          echo "::group::${0}";
+          docker-compose build -- ${0};
+          echo "::endgroup::"
+          '
       - name: Start docker
         run: ./start.sh -d
       - run: bash -x ./test-kdc.sh
