@@ -30,6 +30,7 @@ The project includes several scripts that facilitate interaction with the enviro
 - [kdiag.sh](./kdiag.sh) - runs Kerberos diagnostics tool. See: [Troubleshooting with ``KDiag``](https://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/SecureMode.html#Troubleshooting_with_KDiag).
 - [presto-send-query.sh](./presto-send-query.sh) - sends a SQL query using curl to Presto.
 - [psql.sh](./psql.sh) - runs PostgresSQL console
+- [mc.sh](./mc.sh) - runs Minio CLI tool
 
 All arguments for these scripts are passed to the processes that support them, so that you can write scripts using them
 
@@ -48,3 +49,8 @@ To print more verbose logs in ``hive.sh``, add `-hiveconf hive.root.logger=DEBUG
 ````shell script
 ./hive.sh -hiveconf hive.root.logger=DEBUG,console -e "DROP TABLE employee"
 ````
+
+To print all requests to minio server, run:
+```shell script
+./mc.sh admin trace local
+```
