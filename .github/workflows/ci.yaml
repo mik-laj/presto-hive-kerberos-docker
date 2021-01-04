@@ -33,6 +33,9 @@ jobs:
       - run: bash -x ./test-hive-metastore-s3.sh
       - run: bash -x ./test-krb5-client.sh
       - run: bash -x ./test-presto.sh
+      - run: bash -x ./build.sh
+        working-directory: presto-custom-client
+      - run: bash -x ./test-presto-custom-client.sh
       - name: Docker ps
         if: ${{ always() }}
         run:
