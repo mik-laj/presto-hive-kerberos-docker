@@ -35,7 +35,7 @@ jobs:
       - run: bash -x ./test-presto.sh
       - run: bash -x ./build.sh
         working-directory: presto-custom-client
-      - run: docker-compose down hive-metastore-presto
+      - run: docker-compose stop hive-metastore-presto
       - run: bash -x ./test-presto-custom-client.sh
       - name: Docker ps
         if: ${{ always() }}
