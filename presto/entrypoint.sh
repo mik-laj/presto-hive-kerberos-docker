@@ -132,4 +132,4 @@ echo "Config: ${HIVE_CATALOG_CONFIG_FILE}"
 cat "${HIVE_CATALOG_CONFIG_FILE}"
 
 log "Executing cmd: ${*}"
-exec /bin/sh -c "${@}"
+exec /bin/sh -c "${*}"
