@@ -2,8 +2,6 @@
 
 set -euo pipefail
 
-DOCKER_ARGS=()
-
 docker-compose exec -T \
   hive-metastore-kdc \
     kadmin.local list_principals

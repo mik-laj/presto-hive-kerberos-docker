@@ -12,9 +12,9 @@ if [ ! -t 0 ] ; then
   )
 fi
 
-docker-compose run ${DOCKER_ARGS[*]} \
+docker-compose run "${DOCKER_ARGS[@]}" \
   -e KRB5_TRACE=/dev/stderr \
   hive-metastore-krb5-client \
   kadmin \
     -p alice/admin@EXAMPLE.COM \
-    -w alice ${*}
+    -w alice "${@}"
