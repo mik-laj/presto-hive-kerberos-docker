@@ -7,7 +7,7 @@ WORKDIR /root/
 RUN yum -y install curl wget
 
 # Python
-RUN curl "https://bootstrap.pypa.io/get-pip.py" -o /tmp/get-pip.py && \
+RUN curl "https://bootstrap.pypa.io/2.7/get-pip.py" -o /tmp/get-pip.py && \
 	python /tmp/get-pip.py && \
 	rm /tmp/get-pip.py
 
