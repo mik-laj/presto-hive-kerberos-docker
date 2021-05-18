@@ -48,4 +48,3 @@ log "Insert data"
 
 log "Query data"
 ./presto-send-query.sh "SELECT * FROM hive.sample_schema.sample_table"
-

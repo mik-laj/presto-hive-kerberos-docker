@@ -3,7 +3,7 @@
 
 A development environment consisting of:
  - [Apache Hive HCatalog  (metastore)](https://cwiki.apache.org/confluence/display/Hive/HCatalog)
- - [Trino](https://trino.io/) (formerly PrestoSQL) 
+ - [Trino](https://trino.io/) (formerly PrestoSQL)
  - [Minio](https://min.io/) - S3-compatible storage
 
 Communication between the client and Presto and Presto and Hive is secured by Kerberos

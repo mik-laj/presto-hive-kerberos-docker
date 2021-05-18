@@ -15,4 +15,3 @@ fi
 
 docker exec "${DOCKER_ARGS[@]}" \
   hive-metastore-hive-metastore hadoop org.apache.hadoop.security.KDiag ${*}
-

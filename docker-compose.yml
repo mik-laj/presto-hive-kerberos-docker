@@ -1,3 +1,4 @@
+---
 version: '3.3'
 
 x-hive-metastore-common:
@@ -163,9 +164,12 @@ services:
       - POST_BOOTSTRAP_COMMAND=
         /opt/kerberos-utils/create_admin.sh alice alice;
         /opt/kerberos-utils/create_client.sh bob bob /root/kerberos-keytabs/krb-client.keytab;
-        /opt/kerberos-utils/create_client.sh hive-metastore-presto hive-metastore-presto /root/kerberos-keytabs/presto.keytab;
-        /opt/kerberos-utils/create_service.sh hive-metastore-presto HTTP /root/kerberos-keytabs/presto.keytab;
-        /opt/kerberos-utils/create_service.sh hive-metastore-hive-metastore hive /root/kerberos-keytabs/hive-metastore.keytab;
+        /opt/kerberos-utils/create_client.sh hive-metastore-presto
+          hive-metastore-presto /root/kerberos-keytabs/presto.keytab;
+        /opt/kerberos-utils/create_service.sh hive-metastore-presto
+          HTTP /root/kerberos-keytabs/presto.keytab;
+        /opt/kerberos-utils/create_service.sh hive-metastore-hive-metastore
+          hive /root/kerberos-keytabs/hive-metastore.keytab;
     healthcheck:
       test: |-
         python -c "

@@ -1,7 +1,11 @@
+---
 name: Hive CI
 
-on:
-  push
+on:  # yamllint disable-line rule:truthy
+  push:
+    branches: ['develop', 'master']
+  pull_request:
+    branches: ['develop', 'master']
 
 jobs:
   integration-tests:
