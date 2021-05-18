@@ -52,8 +52,8 @@ if [ -f /tmp/presto-initiaalized ]; then
   exec /bin/sh -c "$@"
 fi
 
-PRESTO_CONFIG_FILE="/usr/lib/presto/default/etc/config.properties"
-JVM_CONFIG_FILE="/usr/lib/presto/default/etc/jvm.config"
+PRESTO_CONFIG_FILE="/usr/lib/presto/etc/config.properties"
+JVM_CONFIG_FILE="/usr/lib/presto/etc/jvm.config"
 
 log "Generate self-signed SSL certificate"
 JKS_KEYSTORE_FILE=/tmp/ssl_keystore.jks
@@ -94,7 +94,7 @@ EOF
 EOF
 fi
 
-HIVE_CATALOG_CONFIG_FILE="/usr/lib/presto/default/etc/catalog/hive.properties"
+HIVE_CATALOG_CONFIG_FILE="/usr/lib/presto/etc/catalog/hive.properties"
 
 cat << EOF >> "${HIVE_CATALOG_CONFIG_FILE}"
 connector.name=hive-hadoop2

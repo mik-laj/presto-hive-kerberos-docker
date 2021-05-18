@@ -1,5 +1,4 @@
-ARG PRESTO_VERSION="330"
-FROM prestosql/presto:${PRESTO_VERSION}
+FROM starburstdata/presto:338-e.7
 
 # Obtain root privileges
 USER 0
@@ -7,7 +6,7 @@ USER 0
 # Setup entrypoint
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["/usr/lib/presto/bin/run-presto"]
+CMD ["/usr/lib/presto/bin/launcher", "run"]
 
 # Expose HTTPS
 EXPOSE 7778

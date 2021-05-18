@@ -80,7 +80,7 @@ ARG HIVE_VERSION=2.3.7
 ENV HIVE_HOME=/opt/hive
 ENV HIVE_CONF_DIR=/etc/hive
 
-RUN HIVE_URL="https://downloads.apache.org/hive/hive-${HIVE_VERSION}/apache-hive-${HIVE_VERSION}-bin.tar.gz" \
+RUN HIVE_URL="https://archive.apache.org/dist/hive/hive-${HIVE_VERSION}/apache-hive-${HIVE_VERSION}-bin.tar.gz" \
     && set -x \
     && curl -fSL https://downloads.apache.org/hive/KEYS | gpg --import - \
     && curl -fSL "$HIVE_URL" -o /tmp/hive.tar.gz \
