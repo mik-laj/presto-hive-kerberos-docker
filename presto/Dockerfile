@@ -1,5 +1,4 @@
-ARG PRESTO_VERSION="330"
-FROM prestosql/presto:${PRESTO_VERSION}
+FROM starburstdata/presto:338-e.7
 
 # Obtain root privileges
 USER 0
