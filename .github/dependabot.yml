@@ -1,0 +1,29 @@
+---
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directory: "./presto"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "docker"
+    directory: "./hive-metastore"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "docker"
+    directory: "./kdc"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "docker"
+    directory: "./krb5-client"
+    schedule:
+      interval: "daily"
+
+  - package-ecosystem: "github-actions"
+    directory: "./"
+    schedule:
+      interval: "daily"
