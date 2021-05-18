@@ -70,4 +70,3 @@ function send_query {
 }
 
 send_query "${1}"
-
