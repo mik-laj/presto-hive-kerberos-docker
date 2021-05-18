@@ -1,5 +1,7 @@
 FROM debian:buster-slim
 
+SHELL ["/bin/bash", "-o", "pipefail", "-e", "-u", "-x", "-c"]
+
 # Make sure noninteractive debian install is used and language variables set
 ENV DEBIAN_FRONTEND=noninteractive \
     LANGUAGE=C.UTF-8 \
@@ -36,14 +38,13 @@ RUN mkdir -pv /usr/share/man/man1 \
         unzip \
     && apt-get autoremove -yqq --purge \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN adduser hive \
+    && rm -rf /var/lib/apt/lists/* \
+# Configure user
+    && adduser hive \
     && echo "hive ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/hive \
-    && chmod 0440 /etc/sudoers.d/hive
-
+    && chmod 0440 /etc/sudoers.d/hive \
 # Install OpenJDK 8
-RUN curl -fSL https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - \
+    && curl -fSL https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - \
     && echo 'deb https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ buster main' > \
         /etc/apt/sources.list.d/adoptopenjdk.list \
     && apt-get update \
