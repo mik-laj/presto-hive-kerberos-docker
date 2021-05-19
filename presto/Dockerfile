@@ -1,4 +1,4 @@
-FROM starburstdata/presto:338-e.7
+FROM starburstdata/presto:350-e.7
 
 # Obtain root privileges
 USER 0
