@@ -14,4 +14,4 @@ if [ -t 0 ] ; then
 fi
 
 docker exec "${DOCKER_ARGS[@]}" \
-  hive-metastore-hive-metastore hadoop org.apache.hadoop.security.KDiag ${*}
+  hive-metastore-hive-metastore hadoop org.apache.hadoop.security.KDiag  "${@}"

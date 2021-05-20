@@ -8,7 +8,7 @@ FROM centos:7
 WORKDIR /root/
 
 # Dev stuff
-RUN yum -y install curl wget
+RUN yum -y install curl wget && yum clean all
 
 # python
 RUN curl "https://bootstrap.pypa.io/pip/2.7/get-pip.py" -o /tmp/get-pip.py && \
@@ -20,7 +20,7 @@ RUN pip install supervisor==3.3.3 && \
     mkdir -p /var/log/supervisord/
 
 # kerberos server
-RUN yum -y install ntp krb5-server krb5-libs
+RUN yum -y install ntp krb5-server krb5-libs && yum clean all
 
 # kerberos server configuration
 ENV KRB5_CONFIG=/etc/krb5.conf
