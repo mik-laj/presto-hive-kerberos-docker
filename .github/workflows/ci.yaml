@@ -36,4 +36,4 @@ jobs:
         run: docker ps
       - name: Dump logs
         if: ${{ always() }}
-        run: docker-compose log
+        run: docker-compose logs
