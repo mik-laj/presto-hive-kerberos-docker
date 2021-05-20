@@ -12,4 +12,4 @@ CMD ["/usr/lib/presto/bin/launcher", "run"]
 EXPOSE 7778
 
 # Restore user
-USER presto:presto
+USER presto:root
