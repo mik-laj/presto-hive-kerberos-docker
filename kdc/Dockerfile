@@ -2,7 +2,7 @@
 #
 # see docker-compose.yml
 
-FROM centos:7
+FROM centos:8
 
 # build environment
 WORKDIR /root/
