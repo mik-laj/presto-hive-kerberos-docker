@@ -20,7 +20,7 @@ RUN curl "https://bootstrap.pypa.io/pip/2.7/get-pip.py" -o /tmp/get-pip.py && \
     rm /tmp/get-pip.py
 
 # supervisord
-RUN pip install supervisor==3.3.3 && \
+RUN pip install supervisor && \
     mkdir -p /var/log/supervisord/
 
 # kerberos server
