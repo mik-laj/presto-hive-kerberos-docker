@@ -7,6 +7,10 @@ FROM centos:8
 # build environment
 WORKDIR /root/
 
+# Fix CenttOS mirrors: https://techglimpse.com/failed-metadata-repo-appstream-centos-8/
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
 # Dev stuff
 RUN yum -y install curl wget && yum clean all
 
@@ -18,10 +22,6 @@ RUN curl "https://bootstrap.pypa.io/pip/2.7/get-pip.py" -o /tmp/get-pip.py && \
 # supervisord
 RUN pip install supervisor==3.3.3 && \
     mkdir -p /var/log/supervisord/
-
-# Fix CenttOS mirrors: https://techglimpse.com/failed-metadata-repo-appstream-centos-8/
-RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
-    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
 
 # kerberos server
 RUN yum -y install ntp krb5-server krb5-libs && yum clean all
