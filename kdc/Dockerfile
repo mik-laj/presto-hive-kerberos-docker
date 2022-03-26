@@ -24,7 +24,7 @@ RUN pip install supervisor && \
     mkdir -p /var/log/supervisord/
 
 # kerberos server
-RUN yum -y install ntp krb5-server krb5-libs && yum clean all
+RUN dnf -y install chrony krb5-server krb5-libs && dnf clean all
 
 # kerberos server configuration
 ENV KRB5_CONFIG=/etc/krb5.conf
