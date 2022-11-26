@@ -2,25 +2,29 @@
 #
 # see docker-compose.yml
 
-FROM centos:7
+FROM centos:8
 
 # build environment
 WORKDIR /root/
 
+# Fix CenttOS mirrors: https://techglimpse.com/failed-metadata-repo-appstream-centos-8/
+RUN sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* && \
+    sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
 # Dev stuff
-RUN yum -y install curl wget && yum clean all
+RUN dnf -y install curl wget python3 && dnf clean all
 
 # python
 RUN curl "https://bootstrap.pypa.io/pip/2.7/get-pip.py" -o /tmp/get-pip.py && \
-    python /tmp/get-pip.py && \
+    python3 /tmp/get-pip.py && \
     rm /tmp/get-pip.py
 
 # supervisord
-RUN pip install supervisor==3.3.3 && \
+RUN pip install supervisor && \
     mkdir -p /var/log/supervisord/
 
 # kerberos server
-RUN yum -y install ntp krb5-server krb5-libs && yum clean all
+RUN dnf -y install chrony krb5-server krb5-libs && dnf clean all
 
 # kerberos server configuration
 ENV KRB5_CONFIG=/etc/krb5.conf
